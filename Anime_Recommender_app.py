@@ -3,7 +3,23 @@
 """
 Created on Sat Oct  7 23:58:07 2017
 
-@author: mbcxjhr2
+@author: H.Rampadarath
+
+A basic content Anime recommender system 
+
+The dataset used in here contains information 
+on user preference data from 73,516 users on 12,294 anime from MyAnimeList.net. 
+Each user is able to add anime to their completed list and 
+give it a rating and this data set is a compilation of those ratings. 
+
+The data was sourced from MAL and made available through Kaggle.
+The data set is dated around December 2016.
+
+This contains 3 files:
+    This file - the executor file
+    Anime_Recommender.py - the main code
+    anime.csv - the database
+
 """
 
 import Anime_Recommender
