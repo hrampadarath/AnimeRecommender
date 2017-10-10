@@ -28,7 +28,8 @@ def menu():
     user_input = input("Select 'N' to search for an anime by name \n"
                        "'M' to list the top Anime Movies by average ratings\n"
                        "'A' to list the top Anime TV series by average ratings\n"
-                       "'R' to generate a list of Anime that is smiliar to another \n"
+                       "'S' to generate a list of Anime that is smiliar to another \n"
+                       "'R' Do you feel lucky? \n"
                        "'Q' to quit \n")
     
     N = int(input("Enter the number of recommendations: \n"))
@@ -48,14 +49,17 @@ def menu():
         elif user_input == 'A':
             Anime_Recommender.TopAnimeTV(anime_db,N)
             
-        elif user_input == 'R':
+        elif user_input == 'S':
             query = input('Enter the Anime:\n')
             Anime_Recommender.similar_anime_content(query,indices,anime_db)
+        elif user_input == 'R':
+            Anime_Recommender.randomAnime(anime_db)
         
         user_input = input("Select 'N' to search for an anime by name \n"
                        "'M' to list the top Anime Movies by average ratings\n"
                        "'A' to list the top Anime TV series by average ratings\n"
-                       "'R' to generate a list of Anime that is smiliar to another \n"
+                       "'S' to generate a list of Anime that is smiliar to another \n"
+                       "'R' Do you feel lucky? \n"
                        "'Q' to quit \n")
         
 

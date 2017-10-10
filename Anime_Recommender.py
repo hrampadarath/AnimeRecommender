@@ -18,6 +18,8 @@ The data set is dated around December 2016.
 
 import pandas as pd
 import re
+import pickle
+from random import randint
 
 
 
@@ -65,8 +67,14 @@ def Model(anime_features, K):
     
     #Obtain the indices of and distances to the the nearest K neighbors of each point.
     distances, indices = nn_model.kneighbors(anime_features)
+    pickle_predictions(indices)
     
     return indices
+
+
+def pickle_predictions(indices):
+    with open('anime_indices.pkl', 'wb') as fid:
+        pickle.dump(indices, fid,2)
 
 
 def similar_anime_content(query, indices, anime_db):
@@ -103,6 +111,14 @@ def TopAnimeMovie(anime_db, N):
     TopM = anime_db[anime_db['type'] == 'Movie'][anime_db.members > 100].sort_values('rating',ascending=False).head(N)
     TopM = TopM.drop(['anime_id','type','episodes'],axis=1)
     print(TopM)
+    
+    
+def randomAnime(anime_db):
+    R = randint(0,len(anime_db)-1)
+    rand_anime = anime_db.iloc[R]
+    print('Random Anime: {}; Genre: {}'.format(rand_anime['name'],rand_anime['genre']))
+    print('Average ratings: {}; Format: {}'.format(rand_anime['rating'],rand_anime['type']))
+    
 
     
     
