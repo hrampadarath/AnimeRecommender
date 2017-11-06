@@ -15,3 +15,7 @@ To execute, run the file Anime_Recommender_app.py
 Dependencies:
 1. Pandas
 2. ScikitLearn
+
+Update:
+The AnimeRecommender has been converted to a webapp using Flask and deployed to Heroku at:
+https://anime-recommender-app.herokuapp.com/
