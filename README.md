@@ -20,3 +20,4 @@ Update:
 The AnimeRecommender has been converted to a webapp using Flask and deployed to Heroku at:
 
 https://anime-recommender-app.herokuapp.com/
+

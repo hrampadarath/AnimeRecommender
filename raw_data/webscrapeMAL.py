@@ -15,6 +15,8 @@ import bs4
 from bs4 import BeautifulSoup
 import pandas as pd
 import re
+from tqdm import tqdm
+from time import sleep
 
 def parse_MAl(url):
     """
@@ -33,7 +35,7 @@ def parse_MAl(url):
     soup = BeautifulSoup(html.content, 'html.parser', from_encoding="utf-8")
     results = soup.find_all(class_= "ranking-list")
     
-    df = pd.DataFrame(columns=["name","type","episodes","members","score_members", "rating","genre","dates"])
+    df = pd.DataFrame(columns=["name","type","episodes","members","score_members", "rating","genre","dates", "url"])
     i = 0
     for result in results:
         #print(i)
@@ -82,24 +84,41 @@ def parse_MAl(url):
             "score_members": score_members,
             "rating": score,
             "genre": genres,
-            "dates": Dates
+            "dates": Dates,
+            "url": url_
         },ignore_index=True)
         
         i+=1
     return df
 
 
-def webscrape_MAl(limit=16750):
+def webscrape_MAl(anime_limit=16750, start=0):
     url_template = "https://myanimelist.net/topanime.php?limit={}"
     df = pd.DataFrame(columns=["name","type","episodes","members","score_members", "rating","genre","dates"])
-    for start in range(0,limit, 50): # iterate in steps of 50
-        url = url_template.format(start)
+    for limit in tqdm(range(start,anime_limit, 50)): # iterate in steps of 50
+        url = url_template.format(limit)
         df_temp = parse_MAl(url)
-        df = df.append(df_temp, ignore_index=True)
-    # save to disk
+        if df_temp["name"].isnull().sum() >= 40:
+            print("Number of missing names, for limit {} = {}".format(limit, df_temp["name"].isnull().sum()))
+            print("--------Halting---------")
+            raise SystemExit()
+        save_mal_temp(df_temp, limit)
+        
+        # I think MAL has a limit on the number of conenctions per minute/second/hour
+        # and after 200-400, the site blocks access. Adding the pause for 1 minute below soleves the issue
+        sleep(60) # pause the loop for 1 minute. 
+        
+
+
+
+
+
+def save_mal_temp(df, limit):
+    csvTemp = "temp/MAL_start_{}.csv".format(limit)
+    df.to_csv(csvTemp)
+        
+    #print("Number of missing names, for limit {} = {}".format(limit, df["name"].isnull().sum()))
     
-    df.to_csv('My_Anime_List_uncleaned.csv', encoding='utf-8')
+    
 
-
-
-webscrape_MAl()
+webscrape_MAl(anime_limit = 16750, start = 11500)

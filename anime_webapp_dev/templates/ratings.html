@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %}
+ 
+<div class="container" style="width:40%" align="center">
+<h1>Random Anime</h1>
+    <h2><i>{{name}}</i></h2>
+<h2>Genre: {{genre}}</h2>
+<h2>Ratings: {{ratings}}</h2>
+<h2>Type: {{type}}</h2>
+<span style="float:left;">
+    <form action = '/randomAnime' method = 'POST'>
+         <p> <input type ="submit" name = "submit" value="random" style="padding: 8px 16px"/></p>
+    </form>
+</span>
+<span style="float:right">
+     <form action = "/similarByContent" method = 'POST'>
+         <p>
+         <input name="name" type ="Hidden" value="{{name}}"/>
+         <input type ="submit" value="Recommend" style="padding: 8px 16px;"/>
+         </p>
+     </form>
+</span>
+
+<a target="_blank" href={{ MAL_search }}> MAL Search</a>
+
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+
+{% extends "layout.html" %}
+{% block body %}
+
+  <body>
+  <h1> Similar Anime by {{ title }} to {{ name }}</h1>
+    {% for anime in topanime %}
+    <div>
+
+         <form action = "/similarByContent" method = 'POST'>
+             <h2>{{ anime.name}}</h2>
+            <p><input name="name" type ="Hidden" value="{{ anime.name }}"/>
+                <b>Genre:</b> {{ anime.genre }}; <b>Ratings:</b> {{ anime.rating }}; <b>Type:</b> {{ anime.type }}
+             <input type ="submit" value="Recommend" style="padding: 8px 16px;"/>
+             <a target="_blank" href="{{anime.MAL}}">MAL Search</a>
+             </p>
+
+
+        </form>
+    </div>
+    {% endfor %}
+  </body>
+
+
+{% endblock %}

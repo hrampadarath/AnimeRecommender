@@ -1,0 +1,77 @@
+<style>
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower');
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
+@import url('https://fonts.googleapis.com/css?family=Handlee');
+
+body{
+    text-align: center;
+    overflow: auto;
+    height: 100%;
+}
+h1{
+    font-family: 'Indie Flower', cursive;
+    font-weight: bold;
+    color: #0000ff;
+    font-size: 2.5em;
+}
+
+p{
+    font-family: 'Handlee';
+    font-size: 1.2em;
+}
+
+
+input[type=button], input[type=submit], input[type=reset] {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    font-family: 'Josefins Sans';
+    font-size: 1.0em;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+input[type=text] {
+    width: 35%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding: 10px 10px 10px 10px;
+}
+
+.container{
+    margin:0px auto;
+    width: 600px;
+}
+
+
+</style>
+
+</style>
+ 
+</head>
+<body>
+
+<a href="/">Home</a>
+<a href='/about'>About</a>
+
+ {% block body %}{% endblock %}
+</body>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-108871439-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-108871439-1');
+</script>
+
+</html>

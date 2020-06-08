@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="container" style="width:100%; height:60%">
+<h1>Anime Recommender App</h1>
+
+
+    <div>
+
+        <form action = "/similarByName" method = 'POST'>
+	    <p> <input name="name" type ="text" placeholder="Search by Name" />
+        <input type ="submit" value="submit" /> </p>
+        </form>
+
+
+    <span style="float:left; width:20%" >
+        <form action = '/randomAnime' method = 'Get'>
+	    <p> <input type ="submit" name = "submit" value="Random Anime Generator" /> </p>
+        </form>
+    </span>
+
+     <span style="float:left; width:50%">
+        <form action = '/topAnimeMovies'>
+	    <p> <input type ="submit" name = "submit" value="Top 20 Anime Movies" /> </p>
+        </form>
+     </span>
+     <span style="float:right;width:30%">
+        <form action = '/topAnimeTV'>
+	    <p> <input type ="submit" name = "submit" value="Top 20 Anime Series" /> </p>
+        </form>
+     </span>
+
+    </div>
+
+</div>
+<div class="block2" style="width:100%", align="left">
+
+    <article>
+    <h3>Instructions:</h3>
+        <p style="font-family:Josefin Sans;"> To search for similar anime based upon content:
+            <ol>
+            <li> Enter the name of an Anime in the "Search by Name" form. This will return a list of Anime
+                in the database with similar names.
+            </li>
+            <li> You can also generate a  Random Anime</li>
+            <li> Or list the top 20 Anime TV or Movies in the database by Ratings.</li>
+            <li> For each Anime there will be an associated "Recommender" button. Use this
+                to generate similar Anime using a content based filtering.
+            </li>
+            </ol>
+
+             </p>
+    </article>
+
+</div>
+
+{% endblock %}
+
+
