@@ -14,6 +14,12 @@ give it a rating and this data set is a compilation of those ratings.
 
 The data was sourced from MAL and made available through Kaggle.
 The data set is dated around December 2016.
+
+Update: 11/06/2020
+
+Updated dataset webscraped from MAL and used to generate a new model. 
+The model is saved as a.pkl file and loaded in this version, speeding up the processing
+
 """
 
 import pandas as pd
@@ -24,51 +30,20 @@ from random import randint
 
 
 
-def data_preprocessing():
+def data():
 
     #load the database
-    anime_db = pd.read_csv('anime.csv')
-    
-    #check missing values
-    anime_db.isnull().sum().sort_values(ascending=False)/len(anime_db)
-    
-    #replace missing ratings with average
-    anime_db['rating'].fillna(anime_db["rating"].median(),inplace = True)
-    
-    #replace missing types with 'T/M' which stands for TV or Movie
-    anime_db['type'].fillna('T/M',inplace = True)
-    
-    #remove special characters from the names
-    anime_db["name"] = anime_db["name"].map(lambda name:re.sub('[^A-Za-z0-9]+', " ", name))
+    anime_db = pd.read_csv('data/MAL_final.csv')
     
     return anime_db
 
 
-def features(anime_db):
-
-    #The features we will be using for the system are the genre, type and the ratings
-    anime_features = pd.concat([anime_db.genre.str.get_dummies(sep=","),
-                                pd.get_dummies(anime_db['type']),anime_db.rating],axis=1)
-    
-    #use MaxBsScaler to scale the features from 1-0, while preserving sparsity
-    from sklearn.preprocessing import MaxAbsScaler
-    max_abs_scaler = MaxAbsScaler()
-    anime_features = max_abs_scaler.fit_transform(anime_features)
-    
-    return anime_features
 
 
-def Model(anime_features, K):
-
-    #build the ML model using the unsupervised verion of K-Nearest Neighbors
-    from sklearn.neighbors import NearestNeighbors
-
-    nn_model = NearestNeighbors(n_neighbors=K,algorithm='auto').fit(anime_features)
-    
-    #Obtain the indices of and distances to the the nearest K neighbors of each point.
-    distances, indices = nn_model.kneighbors(anime_features)
-    pickle_predictions(indices)
-    
+def Model():
+    #oad saved model
+    pkl_file = open('data/anime_indices.pkl', 'rb')
+    indices = pickle.load(pkl_file)
     return indices
 
 
@@ -82,9 +57,11 @@ def similar_anime_content(query, indices, anime_db):
         N = anime_db[anime_db['name'] == query].index[0]
         print('Similar Anime to "{}": \n'.format(query))
         for n in indices[N][1:]:
-            print('Anime: {} \n Genre: {}; Average ratings: {}; Format: {} \n'.format(anime_db.name[n],
-                                                                      anime_db.genre[n],
-                                                                      anime_db.rating[n],anime_db['type'][n])) 
+            print('Anime: {} \n Genre: {}; Average ratings: {}; Format: {}, Members: {}'.format(anime_db.name[n],
+                                                                                  anime_db.genre[n],
+                                                                                  round(anime_db.rating[n],2),
+                                                                                  anime_db['type'][n],
+                                                                                  anime_db['members'][n]))
         
     else:
         print('The anime {} does not exist in our database.'.format(query))

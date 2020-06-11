@@ -32,11 +32,11 @@ def menu():
                        "'R' Do you feel lucky? \n"
                        "'Q' to quit \n")
     
-    N = int(input("Enter the number of recommendations: \n"))
-    print('Plese wait while we build the model')
-    anime_db = Anime_Recommender.data_preprocessing()
-    anime_features = Anime_Recommender.features(anime_db)
-    indices = Anime_Recommender.Model(anime_features,N)
+    #N = int(input("Enter the number of recommendations: \n"))
+    #print('Plese wait while we build the model')
+    anime_db = Anime_Recommender.data()
+    #anime_features = Anime_Recommender.features(anime_db)
+    indices = Anime_Recommender.Model()
     while user_input != 'Q':
 
         if user_input == 'N':
