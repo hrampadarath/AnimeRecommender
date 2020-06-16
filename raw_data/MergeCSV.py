@@ -30,7 +30,7 @@ chdir(csv_file_path)
 # List all CSV files in the working dir
 file_pattern = ".csv"
 list_of_files = glob('*.csv')
-print(list_of_files)
+print(len(list_of_files))
 
-file_out = "MAL.csv"
-mergeCSV(list_of_files, file_out)
+#file_out = "MAL.csv"
+#mergeCSV(list_of_files, file_out)

@@ -11,19 +11,20 @@ app = Flask(__name__)
 def data_preprocessing():
 
     #load the database
-    anime_db = pd.read_csv('anime.csv')
+    anime_db = pd.read_csv('MAL_final.csv')
+    anime_db.fillna('', inplace=True)
     
     #check missing values
-    anime_db.isnull().sum().sort_values(ascending=False)/len(anime_db)
+    #anime_db.isnull().sum().sort_values(ascending=False)/len(anime_db)
     
     #replace missing ratings with average
-    anime_db['rating'].fillna(anime_db["rating"].median(),inplace = True)
+    #anime_db['rating'].fillna(anime_db["rating"].median(),inplace = True)
     
     #replace missing types with 'T/M' which stands for TV or Movie
-    anime_db['type'].fillna('T/M',inplace = True)
+    #anime_db['type'].fillna('T/M',inplace = True)
     
     #remove special characters from the names
-    anime_db["name"] = anime_db["name"].map(lambda name:re.sub('[^A-Za-z0-9]+', " ", name))
+    #anime_db["name"] = anime_db["name"].map(lambda name:re.sub('[^A-Za-z0-9]+', " ", name))
     
     return anime_db
 
@@ -50,13 +51,14 @@ def randomAnime():
 		R = randint(0,len(anime_db)-1)
 		rand_anime = anime_db.iloc[R]
 
-	MAL = 'https://myanimelist.net/search/all?q={}'.format('+'.join(rand_anime['name'].split(' ')))
+	#MAL = 'https://myanimelist.net/search/all?q={}'.format('+'.join(rand_anime['name'].split(' ')))
 	return render_template('ratings.html',
 			name = rand_anime['name'],
+            english_name = rand_anime['english_name'],
 			genre = rand_anime['genre'],
-			ratings = rand_anime['rating'],
+			ratings = round(rand_anime['rating'],2),
 			type = rand_anime['type'],
-			MAL_search=MAL)
+			MAL_search=rand_anime['url'])
 	
 
 def animedict(anime_list):
@@ -64,9 +66,10 @@ def animedict(anime_list):
 	for i in range(len(anime_list)):
 		info = {
 			"name": anime_list['name'][i],
-			"rating": anime_list['rating'][i],
+            "english_name":anime_list['english_name'][i],
+			"rating": round(anime_list['rating'][i],2),
 			"genre": anime_list['genre'][i],
-			"MAL":'https://myanimelist.net/search/all?q={}'.format('+'.join(anime_list['name'][i].split(' ')))
+			"MAL": anime_list['url'][i]
 		}
 		anime_dict.append(info)
 	return anime_dict
@@ -75,8 +78,8 @@ def animedict(anime_list):
 @app.route('/topAnimeMovies')
 def topMovies():
 	anime_db = data_preprocessing()
-	TopM = anime_db[anime_db['type'] == 'Movie'][anime_db.members > 100].sort_values('rating',ascending=False).head(20)
-	TopM = TopM.drop(['anime_id','type','episodes'],axis=1).reset_index()
+	TopM = anime_db[anime_db['type'] == 'Movie'][anime_db.members > 100].sort_values('rating',ascending=False).head(100)
+	TopM = TopM.reset_index()
 	TopM = TopM.drop(['index'],axis=1)
 	topanime = animedict(TopM)
 
@@ -88,8 +91,8 @@ def topMovies():
 @app.route('/topAnimeTV')
 def topTV():
 	anime_db = data_preprocessing()
-	TopM = anime_db[anime_db['type'] == 'TV'][anime_db.members > 100].sort_values('rating',ascending=False).head(20)
-	TopM = TopM.drop(['anime_id','type','episodes'],axis=1).reset_index()
+	TopM = anime_db[anime_db['type'] == 'TV'][anime_db.members > 100].sort_values('rating',ascending=False).head(100)
+	TopM = TopM.reset_index()
 	TopM = TopM.drop(['index'],axis=1)
 	topanime = animedict(TopM)
 
@@ -110,10 +113,11 @@ def similar_by_name():
 		if query.lower() in name.lower():
 			info = {
 				"name": anime_db['name'][i],
-				"rating": anime_db['rating'][i],
+                "english_name": anime_db['english_name'][i],
+				"rating": round(anime_db['rating'][i],2),
 				"genre": anime_db['genre'][i],
 				"type": anime_db['type'][i],
-				"MAL":'https://myanimelist.net/search/all?q={}'.format('+'.join(anime_db['name'][i].split(' ')))
+				"MAL": anime_db['url'][i]
 			}
 			anime_list.append(info)
 			n+=1
@@ -139,10 +143,11 @@ def similar_by_content():
 		for n in indices[N][1:]:
 			info = {
 				"name": anime_db['name'][n],
-				"rating": anime_db['rating'][n],
+                "english_name": anime_db['english_name'][n],
+				"rating": round(anime_db['rating'][n],2),
 				"genre": anime_db['genre'][n],
 				"type": anime_db['type'][n],
-				"MAL":'https://myanimelist.net/search/all?q={}'.format('+'.join(anime_db['name'][n].split(' ')))
+				"MAL": anime_db['url'][n]
 			}
 			anime_list.append(info)
 

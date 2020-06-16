@@ -3,21 +3,35 @@
 {% block body %}
 
   <body>
-  <h1> Top 20 Anime {{ title }} </h1>
+  <h1> Top 100 Anime {{ title }} </h1>
+    <table style="width:100%">
+      <tr>
+        <th><h2>Title</h2></th>
+        <th><h2>Alt Title</h2></th>
+        <th><h2>Genre</h2></th> 
+        <th><h2>Rating</h2></th>
+        <th><h2>Link</h2></th>
+        <th><h2>Recommend</h2></th>
+      </tr>
     {% for anime in topanime %}
     <div>
      <form action = "/similarByContent" method = 'POST'>
-         <h2>{{ anime.name }}</h2>
-         <p>
-             <b>Genre:</b> {{ anime.genre }}; <b>Ratings:</b>{{ anime.rating }}
-         <input name="name" type ="Hidden" value="{{anime.name}}"/>
-         <input type ="submit" value="Recommend" style="padding: 8px 16px;"/>
-         <a target="_blank" href="{{anime.MAL}}">MAL Search</a>
-         </p>
+     
+      <tr>
+        <td>{{ anime.name }}</td>
+        <td>{{ anime.english_name }}</td>
+        <td>{{ anime.genre }}</td>
+        <td>{{ anime.rating }}</td>
+        <td> <a target="_blank" href="{{anime.MAL}}">MAL Link</a> </td>
+        <td> <input name="name" type ="Hidden" value="{{anime.name}}"/>
+         <input type ="submit" value="Recommend" style="padding: 8px 16px;"/> </td>
+      </tr>
+    
      </form>
     </div>
-
+    
     {% endfor %}
+    </table>
   </body>
 
 
