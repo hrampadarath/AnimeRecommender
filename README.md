@@ -8,7 +8,7 @@ The first version of this app was developed about 3 years ago as a sort of way t
 That dataset contains information on user preference data from 73,516 users on 12,294 anime. The app can be run in two ways:
 
 1. ~~run the file Anime_Recommender_app.py.~~
-2. use the Flask webapp, deployed to Heroku at: https://anime-recommender-app.herokuapp.com/
+2. ~~use the Flask webapp, deployed to Heroku at: https://anime-recommender-app.herokuapp.com/~~
 
 The original development of the recommender system is located at notebooks/Anime_Recommender_orig.ipynb
 
@@ -16,7 +16,8 @@ The original development of the recommender system is located at notebooks/Anime
 
 ### Version 2: in progress
 
-The new version of this app is currently being developed:
+~~The new version of this app is currently being developed:~~
+June 18 2020: Development of this app has been completed, and deployed on Heroku
 
 - webscraper:files are in the raw_data folder under webscrapeMAP.py (webscraper) and webscrape_MyAnime.ipynb (for info on how the webscraper was developed).
 - Model development: notebooks/Anime_Recommender.ipynb
@@ -24,3 +25,5 @@ The new version of this app is currently being developed:
 
 To run the current version:
 1. run the file Anime_Recommender_app.py
+2. run the app.py file in anime_webapp_dev
+3. use the Flask webapp, deployed to Heroku at: https://anime-recommender-app.herokuapp.com/
